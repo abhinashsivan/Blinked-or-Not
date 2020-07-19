@@ -4,6 +4,7 @@ import cv2
 import pandas as pd
 import openpyxl
 import numpy
+import math
 import csv
 
 # let's go code an faces detector(HOG) and after detect the
@@ -48,22 +49,27 @@ while True:
         for (x, y) in shape:
             cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
 
+        left_horizontal=calcDist(landmarks, image, 37, 40)
+        right_horizontal=calcDist(landmarks, image, 43, 46)
 
-        distance_1 = calcDist(landmarks, image,38, 42)
-        distance_2 = calcDist(landmarks, image, 39, 41)
-        distance_3 = calcDist(landmarks, image, 48, 44)
-        distance_4 = calcDist(landmarks, image, 45, 47)
+        distance_1 = calcDist(landmarks, image,38, 42)/left_horizontal
+        distance_2 = calcDist(landmarks, image, 39, 41)/left_horizontal
+        distance_3 = calcDist(landmarks, image, 48, 44)/right_horizontal
+        distance_4 = calcDist(landmarks, image, 45, 47)/right_horizontal
 
-        l.append(distance_1)
-        l.append(distance_2)
-        l.append(distance_3)
-        l.append(distance_4)
+        l.append(round(distance_1,2))
+        l.append(round(distance_2,2))
+        l.append(round(distance_3,2))
+        l.append(round(distance_4,2))
 
 
     print (l)
-    l=[]
+
     # Show the image
+    image=cv2.putText(image, str(l), (32,414), cv2.FONT_HERSHEY_SIMPLEX ,.5, (0,0,255), 1)
+    l = []
     cv2.imshow("Output", image)
+
 
 
     key = cv2.waitKey(1)
