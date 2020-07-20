@@ -71,9 +71,13 @@ while True:
     # Show the image
     image=cv2.putText(image, str(l), (32,414), cv2.FONT_HERSHEY_SIMPLEX ,.5, (0,0,255), 1)
     for i in l:
+        t = False
         if(i<.20):
-            print ("yes")
-            playsound.playsound("beep-01a.mp3")
+            print ("sleeping")
+            t= True
+            playsound.playsound("beep-08b.wav")
+            break
+        if t:
             break
     l = []
     cv2.imshow("Output", image)
